@@ -15,10 +15,15 @@ import java.awt.*;
 public class Square {
 
     private String marker;
-    public static final int SIZE = 100;
+    // public static final int SIZE = 100,
+                           // BOX_SIZE = 50,
+                           // X_OFFSET = 100,
+                           // Y_OFFSET = 100;
     private int row;
     private int col;
     private boolean isWinningSquare;
+
+    private Image Oimage, Ximage;
 
     /**
      * Constructor to initialize one Square of the
@@ -29,6 +34,9 @@ public class Square {
     public Square(int row, int col) {
         this.row = row;
         this.col = col;
+
+        Ximage = new ImageIcon("Resources/X.png").getImage();
+        Oimage = new ImageIcon("Resources/O.png").getImage();
 
         this.marker = TicTacToe.BLANK;
         this.isWinningSquare = false;
@@ -55,20 +63,27 @@ public class Square {
         return this.marker.equals(TicTacToe.BLANK);
     }
 
-    public void draw(Graphics g, int x, int y, int size, TicTacToeViewer ref)
+    public void draw(Graphics g, TicTacToeViewer ref)
     {
-        g.setColor(Color.BLACK);
-        Image one = new ImageIcon("Resources/O.png").getImage();
-        Image two = new ImageIcon("Resources/X.png").getImage();
+        int size = TicTacToeViewer.BOX_SIZE;
+        int xCorner = TicTacToeViewer.X_OFFSET + (TicTacToeViewer.BOX_SIZE * col);
+        int yCorner = TicTacToeViewer.Y_OFFSET + (TicTacToeViewer.BOX_SIZE * row);
 
-        g.drawRect(x, y, size, size, ref);
-        if (marker.equals(TicTacToe.X_MARKER))
+        g.drawRect(xCorner, yCorner, size, size);
+
+        if (isWinningSquare)
         {
-
+            g.setColor(Color.green);
+            g.fillRect(xCorner, yCorner, size, size);
         }
-        else if (marker.equals(TicTacToe.O_MARKER))
-        {
 
+        if(marker.equals("X"))
+        {
+            g.drawImage(Ximage, xCorner, yCorner, size, size, ref);
+        }
+        else if(marker.equals("O"))
+        {
+            g.drawImage(Oimage, xCorner, yCorner, size, size, ref);
         }
     }
     /**
